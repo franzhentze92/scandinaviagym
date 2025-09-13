@@ -138,26 +138,27 @@ const AdminStaff: React.FC = () => {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-white">Gestión de Staff</h1>
-          <p className="text-gray-400">Administra entrenadores y personal</p>
+          <p className="text-gray-400 text-sm sm:text-base">Administra entrenadores y personal</p>
         </div>
-        <div className="flex items-center gap-3">
-          <Button className="bg-gray-700 hover:bg-gray-600 text-white">
-            <Plus className="w-4 h-4 mr-2" />
-            Nuevo Staff
+        <div className="flex items-center gap-2 sm:gap-3">
+          <Button className="bg-gray-700 hover:bg-gray-600 text-white text-xs sm:text-sm px-2 sm:px-3">
+            <Plus className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">Nuevo Staff</span>
+            <span className="sm:hidden">Nuevo</span>
           </Button>
-          <Button variant="outline" className="border-gray-600 text-gray-300 hover:bg-gray-800">
-            <Download className="w-4 h-4 mr-2" />
-            Exportar
+          <Button variant="outline" className="border-gray-600 text-gray-300 hover:bg-gray-800 text-xs sm:text-sm px-2 sm:px-3">
+            <Download className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">Exportar</span>
           </Button>
         </div>
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
         {kpis.map((kpi, index) => (
           <Card key={index} className="bg-gray-800 border-gray-700">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-gray-300">
+              <CardTitle className="text-xs sm:text-sm font-medium text-gray-300">
                 {kpi.title}
               </CardTitle>
               <div className="text-gray-400">
@@ -165,7 +166,7 @@ const AdminStaff: React.FC = () => {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-white">{kpi.value}</div>
+              <div className="text-lg sm:text-2xl font-bold text-white">{kpi.value}</div>
               <div className="flex items-center gap-1 mt-1">
                 <span className={`text-xs ${kpi.changeType === 'positive' ? 'text-green-400' : 'text-red-400'}`}>
                   {kpi.change}

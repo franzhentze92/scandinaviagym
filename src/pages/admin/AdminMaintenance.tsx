@@ -162,7 +162,7 @@ const AdminMaintenance: React.FC = () => {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-white">{kpi.value}</div>
+              <div className="text-lg sm:text-2xl font-bold text-white">{kpi.value}</div>
               <div className="flex items-center gap-1 mt-1">
                 <span className={`text-xs ${kpi.changeType === 'positive' ? 'text-green-400' : 'text-red-400'}`}>
                   {kpi.change}
