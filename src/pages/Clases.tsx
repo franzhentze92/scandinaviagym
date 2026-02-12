@@ -39,7 +39,10 @@ const Clases: React.FC = () => {
     { value: 'fuerza', label: 'Fuerza', icon: <Dumbbell className="w-5 h-5" /> },
     { value: 'acuaticas', label: 'Acuáticas', icon: <Waves className="w-5 h-5" /> },
     { value: 'danza', label: 'Danza', icon: <Music className="w-5 h-5" /> },
-    { value: 'yoga', label: 'Yoga & Pilates', icon: <Target className="w-5 h-5" /> },
+    { value: 'baile', label: 'Baile', icon: <Music className="w-5 h-5" /> },
+    { value: 'taebo', label: 'Tae-bo', icon: <Zap className="w-5 h-5" /> },
+    { value: 'zumba', label: 'Zumba', icon: <Music className="w-5 h-5" /> },
+    { value: 'box', label: 'Box', icon: <Target className="w-5 h-5" /> },
     { value: 'especializadas', label: 'Especializadas', icon: <Award className="w-5 h-5" /> }
   ];
 
@@ -87,9 +90,9 @@ const Clases: React.FC = () => {
     },
     {
       id: '2',
-      name: 'Yoga Flow',
+      name: 'Baile Fitness',
       instructor: 'Carlos Mendoza',
-      category: 'yoga',
+      category: 'baile',
       location: 'zona10',
       day: 'martes',
       time: '07:30',
@@ -98,10 +101,10 @@ const Clases: React.FC = () => {
       capacity: 25,
       enrolled: 22,
       rating: 4.9,
-      description: 'Secuencia fluida de posturas de yoga que conectan movimiento y respiración.',
+      description: 'Clase de baile fitness con ritmos variados para divertirte mientras entrenas.',
       image: 'https://d64gsuwffb70l.cloudfront.net/68c59c7a14e91a1ceb872621_1757781159548_f6cc2c6d.webp',
-      features: ['Flexibilidad', 'Relajación', 'Fuerza mental'],
-      equipment: ['Colchonetas', 'Bloques', 'Correas']
+      features: ['Diversión', 'Quema calorías', 'Coordinación'],
+      equipment: ['Sistema de sonido', 'Espejos', 'Espacio amplio']
     },
     {
       id: '3',
@@ -141,9 +144,9 @@ const Clases: React.FC = () => {
     },
     {
       id: '5',
-      name: 'Zumba',
+      name: 'Zumba Party',
       instructor: 'Sofia Herrera',
-      category: 'danza',
+      category: 'zumba',
       location: 'villanueva',
       day: 'viernes',
       time: '20:00',
@@ -159,9 +162,9 @@ const Clases: React.FC = () => {
     },
     {
       id: '6',
-      name: 'Pilates Mat',
+      name: 'Tae-bo Intensivo',
       instructor: 'Elena Vásquez',
-      category: 'yoga',
+      category: 'taebo',
       location: 'zona14',
       day: 'sabado',
       time: '09:00',
@@ -170,10 +173,10 @@ const Clases: React.FC = () => {
       capacity: 20,
       enrolled: 18,
       rating: 4.6,
-      description: 'Método Pilates en colchoneta para fortalecer el core y mejorar la postura.',
+      description: 'Entrenamiento de Tae-bo que combina artes marciales y cardio de alta intensidad.',
       image: 'https://d64gsuwffb70l.cloudfront.net/68c59c7a14e91a1ceb872621_1757781166772_09fd686a.webp',
-      features: ['Core fuerte', 'Postura', 'Flexibilidad'],
-      equipment: ['Colchonetas', 'Pelotas', 'Bandas elásticas']
+      features: ['Cardio intenso', 'Fuerza', 'Coordinación'],
+      equipment: ['Colchonetas', 'Guantes', 'Espacio amplio']
     },
     {
       id: '7',
@@ -195,9 +198,9 @@ const Clases: React.FC = () => {
     },
     {
       id: '8',
-      name: 'Boxing Fitness',
+      name: 'Box Fitness',
       instructor: 'Miguel Torres',
-      category: 'especializadas',
+      category: 'box',
       location: 'sancristobal',
       day: 'lunes',
       time: '19:30',

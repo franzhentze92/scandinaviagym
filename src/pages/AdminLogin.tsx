@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Shield, Lock, Eye, EyeOff, AlertTriangle } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { toast } from 'sonner';
 
 const AdminLogin: React.FC = () => {
   const navigate = useNavigate();
+  const { signIn, userRole, isAdmin } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -62,11 +65,35 @@ const AdminLogin: React.FC = () => {
 
     setIsLoading(true);
     
-    // Simulate admin login process
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // Redirect to admin dashboard
-    navigate('/admin');
+    try {
+      // Sign in with email and password
+      const { error } = await signIn(formData.email, formData.password);
+      
+      if (error) {
+        toast.error('Credenciales incorrectas');
+        setErrors({ 
+          email: 'Credenciales incorrectas',
+          password: 'Credenciales incorrectas'
+        });
+        setIsLoading(false);
+        return;
+      }
+
+      // Wait a moment for the auth context to update
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // Check if user is admin (this will be checked by AdminRoute, but we can verify here too)
+      // The AdminRoute component will handle the redirect if not admin
+      navigate('/admin');
+    } catch (error: any) {
+      toast.error('Error al iniciar sesión');
+      setErrors({ 
+        email: 'Error al iniciar sesión',
+        password: 'Error al iniciar sesión'
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleBackToClientLogin = () => {
