@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, Suspense, lazy } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { useScrollToTop } from '@/hooks/use-scroll-to-top';
 import { useAuth } from '@/contexts/AuthContext';
@@ -6,6 +6,7 @@ import { getUserProfile } from '@/services/database';
 import type { UserProfile } from '@/types/database';
 import { QRCodeSVG } from 'qrcode.react';
 import { toast } from 'sonner';
+import { supabase } from '@/lib/supabase';
 import { 
   LayoutDashboard, 
   User, 
@@ -30,26 +31,26 @@ import {
   FileText
 } from 'lucide-react';
 
-// Import dashboard pages (we'll create these)
-import DashboardOverview from './dashboard/DashboardOverview';
-import MiMembresia from './dashboard/MiMembresia';
-import ClasesReservas from './dashboard/ClasesReservas';
-import Entrenadores from './dashboard/Entrenadores';
-import RetosComunidad from './dashboard/RetosComunidad';
-import SoporteContacto from './dashboard/SoporteContacto';
-import MiPerfil from './dashboard/MiPerfil';
-import AdministracionUsuarios from './dashboard/AdministracionUsuarios';
-import AdministracionInstructores from './dashboard/AdministracionInstructores';
-import AdministracionReservas from './dashboard/AdministracionReservas';
-import AdministracionEvaluaciones from './dashboard/AdministracionEvaluaciones';
-import InstructorDashboard from './dashboard/InstructorDashboard';
-import AdminDashboard from './dashboard/AdminDashboard';
-import AdministracionRutinas from './dashboard/AdministracionRutinas';
-import AdministracionMembresias from './dashboard/AdministracionMembresias';
-import AdministracionPlanes from './dashboard/AdministracionPlanes';
-import AdministracionTickets from './dashboard/AdministracionTickets';
-import MisEvaluaciones from './dashboard/MisEvaluaciones';
-import MisRutinas from './dashboard/MisRutinas';
+// Lazy load dashboard pages for code splitting
+const DashboardOverview = lazy(() => import('./dashboard/DashboardOverview'));
+const MiMembresia = lazy(() => import('./dashboard/MiMembresia'));
+const ClasesReservas = lazy(() => import('./dashboard/ClasesReservas'));
+const Entrenadores = lazy(() => import('./dashboard/Entrenadores'));
+const RetosComunidad = lazy(() => import('./dashboard/RetosComunidad'));
+const SoporteContacto = lazy(() => import('./dashboard/SoporteContacto'));
+const MiPerfil = lazy(() => import('./dashboard/MiPerfil'));
+const AdministracionUsuarios = lazy(() => import('./dashboard/AdministracionUsuarios'));
+const AdministracionInstructores = lazy(() => import('./dashboard/AdministracionInstructores'));
+const AdministracionReservas = lazy(() => import('./dashboard/AdministracionReservas'));
+const AdministracionEvaluaciones = lazy(() => import('./dashboard/AdministracionEvaluaciones'));
+const InstructorDashboard = lazy(() => import('./dashboard/InstructorDashboard'));
+const AdminDashboard = lazy(() => import('./dashboard/AdminDashboard'));
+const AdministracionRutinas = lazy(() => import('./dashboard/AdministracionRutinas'));
+const AdministracionMembresias = lazy(() => import('./dashboard/AdministracionMembresias'));
+const AdministracionPlanes = lazy(() => import('./dashboard/AdministracionPlanes'));
+const AdministracionTickets = lazy(() => import('./dashboard/AdministracionTickets'));
+const MisEvaluaciones = lazy(() => import('./dashboard/MisEvaluaciones'));
+const MisRutinas = lazy(() => import('./dashboard/MisRutinas'));
 
 const Dashboard: React.FC = () => {
   const { user, userRole } = useAuth();
@@ -268,7 +269,6 @@ const Dashboard: React.FC = () => {
   }, [userRole]);
 
   const handleLogout = async () => {
-    const { supabase } = await import('@/lib/supabase');
     await supabase.auth.signOut();
     navigate('/login');
   };
@@ -652,27 +652,33 @@ const Dashboard: React.FC = () => {
 
           {/* Page Content */}
           <div className="p-3 sm:p-6 overflow-x-hidden max-w-full w-full min-w-0">
-            <Routes>
-              <Route path="/" element={<DashboardOverview />} />
-              <Route path="/membresia" element={<MiMembresia />} />
-              <Route path="/clases" element={<ClasesReservas />} />
-              <Route path="/entrenadores" element={<Entrenadores />} />
-              <Route path="/retos" element={<RetosComunidad />} />
-              <Route path="/soporte" element={<SoporteContacto />} />
-              <Route path="/perfil" element={<MiPerfil />} />
-              <Route path="/instructor" element={<InstructorDashboard />} />
-              <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/admin/usuarios" element={<AdministracionUsuarios />} />
-              <Route path="/admin/instructores" element={<AdministracionInstructores />} />
-              <Route path="/admin/reservas" element={<AdministracionReservas />} />
-              <Route path="/admin/evaluaciones" element={<AdministracionEvaluaciones />} />
-              <Route path="/admin/rutinas" element={<AdministracionRutinas />} />
-              <Route path="/admin/inscripciones" element={<AdministracionMembresias />} />
-              <Route path="/admin/planes" element={<AdministracionPlanes />} />
-              <Route path="/admin/tickets" element={<AdministracionTickets />} />
-              <Route path="/mis-evaluaciones" element={<MisEvaluaciones />} />
-              <Route path="/mis-rutinas" element={<MisRutinas />} />
-            </Routes>
+            <Suspense fallback={
+              <div className="flex items-center justify-center min-h-[400px]">
+                <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+              </div>
+            }>
+              <Routes>
+                <Route path="/" element={<DashboardOverview />} />
+                <Route path="/membresia" element={<MiMembresia />} />
+                <Route path="/clases" element={<ClasesReservas />} />
+                <Route path="/entrenadores" element={<Entrenadores />} />
+                <Route path="/retos" element={<RetosComunidad />} />
+                <Route path="/soporte" element={<SoporteContacto />} />
+                <Route path="/perfil" element={<MiPerfil />} />
+                <Route path="/instructor" element={<InstructorDashboard />} />
+                <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/admin/usuarios" element={<AdministracionUsuarios />} />
+                <Route path="/admin/instructores" element={<AdministracionInstructores />} />
+                <Route path="/admin/reservas" element={<AdministracionReservas />} />
+                <Route path="/admin/evaluaciones" element={<AdministracionEvaluaciones />} />
+                <Route path="/admin/rutinas" element={<AdministracionRutinas />} />
+                <Route path="/admin/inscripciones" element={<AdministracionMembresias />} />
+                <Route path="/admin/planes" element={<AdministracionPlanes />} />
+                <Route path="/admin/tickets" element={<AdministracionTickets />} />
+                <Route path="/mis-evaluaciones" element={<MisEvaluaciones />} />
+                <Route path="/mis-rutinas" element={<MisRutinas />} />
+              </Routes>
+            </Suspense>
           </div>
         </div>
       </div>
